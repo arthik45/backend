@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import authRouter from "./routes/auth.routes";
 import employeeRouter from "./routes/employeeRoutes";
 import leaveRouter from "./routes/leaveRoutes";
+import attendanceRoutes from "./routes/attendanceRoutes";
 dotenv.config();
 const app = express()
 app.use(cors())
@@ -18,6 +19,7 @@ connectdb()
 app.use("/api",authRouter)
 app.use("/api", employeeRouter)
 app.use("/api", leaveRouter)
+app.use("/api", attendanceRoutes)
 app.listen(port, () => {
     console.log(`server is running on port ${port}`)
 
