@@ -4,12 +4,14 @@ import Leave from "../modals/Leave";
 
 export const applyLeave = async (req: Request, res: Response) => {
     try {
+        console.log(req.body);
         const { employeeid, leavetype, fromDate, toDate, reason } = req.body;
         const employee = await Employee.findOne({ employeeid: employeeid })
         if (!employee) {
             return res.status(500).json({message:"Employee not excit"})
         }
         const leaveid = `LEV${Date.now()}`;
+        console.log(leaveid,"jhhg")
         const leave = await Leave.create({
             leaveid,employeeid,leavetype,fromDate,toDate,reason,appliedAt:new Date(),
         })
@@ -23,15 +25,23 @@ export const applyLeave = async (req: Request, res: Response) => {
 }
 export const approveLeave = async (req: Request, res: Response) => {
     try {
-        const { employeeid, status } = req.body;
-        const leave = await Leave.findOne({ employeeid: employeeid })
+        const { leaveId } = req.body;
+
+        const leave = await Leave.findById(leaveId);
+
         if (!leave) {
-            return res.status(500).json({message:"Employee not excit"})
+            return res.status(404).json({
+                message: "Leave not found",
+            });
         }
+
         leave.status = true;
         await leave.save();
-       
-        res.status(201).json({ massage: "Leave approved successfully", leave })
+
+        res.status(200).json({
+            message: "Leave approved successfully",
+            leave,
+        });
 
     } catch (error) {
         console.log(error);

@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+import mongoose from "mongoose"
 import Employee from "../modals/Employee"
 import { Request, Response } from "express"
 import User from "../modals/user.modal"
@@ -66,7 +67,7 @@ export const updateEmployee = async (req: Request, res: Response) => {
 export const deleteEmployee = async (req: Request, res: Response)=>{
     try {
         const { id } = req.params
-        const employee = await Employee.findOneAndDelete({ employeeid: id })
+        const employee = await Employee.findOneAndDelete({ _id: id })
         if (!employee) {
             return res.status(404).json({ message: "Employee was not found" })
         }
@@ -75,7 +76,7 @@ export const deleteEmployee = async (req: Request, res: Response)=>{
         res.status(500).json({ message: "server error" })
     }
 }
-export const getEmployeeList = async (req: Request, res: Response)=>{
+export const getEmployeeList = async (req: Request, res: Response) => {
     try {
         const employee = await Employee.find()
         if (!employee) {
@@ -83,6 +84,6 @@ export const getEmployeeList = async (req: Request, res: Response)=>{
         }
         res.json({ message: "Success", count: employee.length, data: employee })
     } catch (error) {
-        res.status(500).json({ message: "server error" })
+        res.status(500).json({ message: "server error", error })
     }
 }

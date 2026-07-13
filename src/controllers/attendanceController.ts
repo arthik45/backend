@@ -74,18 +74,31 @@ export const checkIn = async (req: Request, res: Response) => {
 }
 export const getAttendance = async (req: Request, res: Response) => {
     try {
-        const { employeeid } = req.body;
-        const employee = await Employee.findOne({employeeid});
-        console.log(employeeid,"emplojhh")
-        if (!employee) {
-            return res.status(204).json({message:"Employee not found"})
+        const attendance = await Attendance.find()
+        if (!attendance) {
+            return res.status(404).json({ message: "Attendance was not found" })
         }
-        const limit = 30;
-        const attendance = await Attendance.findOne({ employeeid });
-        res.status(500).json({ success: false, message: "success", data: attendance });
-
+        res.status(200).json({ success: true, message: "success", data: attendance });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ success: false, message: "Internal server error", error });
+        res.status(500).json({ message: "server error", error })
     }
 }
+export const getAttendancebyid = async (req: Request, res: Response) => {
+    try {
+        const { employeeid } = req.params;
+
+        const attendance = await Attendance.find({ employeeid }).sort({
+            date: -1,
+        });
+
+        res.status(200).json({
+            success: true,
+            data: attendance,
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Server Error",
+        });
+    }
+};

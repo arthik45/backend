@@ -4,5 +4,8 @@ const employeeRouter = express.Router();
 employeeRouter.post("/addemployee", createEmployee)
 employeeRouter.put("/addemployee/:id", updateEmployee)
 employeeRouter.delete("/deleteemployee/:id", deleteEmployee)
-employeeRouter.get("/employees", getEmployeeList)
+employeeRouter.get("/employees", (req, res, next) => {
+    console.log("employee route hitting")
+    next()
+}, getEmployeeList)
 export default employeeRouter;
