@@ -2,6 +2,7 @@ import mongoose, { Schema, Types } from "mongoose";
 
 export interface Employee {
     employeeid: any,
+    userId: Types.ObjectId;
     name: string,
     email: string,
     password:string,
@@ -14,6 +15,12 @@ export interface Employee {
     status: Boolean,
 }
 const employeeSchema = new Schema<Employee>({
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
+
     employeeid: {
         type: String,
         required: true,

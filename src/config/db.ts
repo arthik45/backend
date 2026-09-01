@@ -5,6 +5,7 @@ const connectdb = async (): Promise<void>=>{
         console.log("DB connected")
     } catch (error) {
         console.log("DB connection failed",error)
+        throw error
     }
     
 }

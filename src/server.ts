@@ -1,4 +1,5 @@
 import express from "express";
+import session from "express-session";
 import cors from "cors";
 import connectdb from "./config/db";
 import dotenv from 'dotenv'
@@ -16,6 +17,16 @@ app.use((req, res, next) => {
     console.log(`${req.method} ${req.originalUrl}`)
     next()
 })
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || "my-secret",
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 1000 * 60 * 60 * 24,
+        },
+    })
+);
 app.get("/", (req,res) => {
     res.send("server is running")
     console.log("server is running")

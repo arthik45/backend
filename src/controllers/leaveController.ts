@@ -6,7 +6,8 @@ export const applyLeave = async (req: Request, res: Response) => {
     try {
         console.log(req.body);
         const { employeeid, leavetype, fromDate, toDate, reason } = req.body;
-        const employee = await Employee.findOne({ employeeid: employeeid })
+        const session = req.session;
+        const employee = await Employee.findOne({ userId: employeeid })
         if (!employee) {
             return res.status(500).json({message:"Employee not excit"})
         }
@@ -66,8 +67,8 @@ export const getLeaves = async (req: Request, res: Response) => {
 }
 export const getLeavebuid = async (req: Request, res: Response) => {
     try {
-        const{leaveid}=req.params
-        const leave = await Leave.findOne({leaveid:leaveid})
+        const{employeeid}=req.params
+        const leave = await Leave.find({ employeeid: employeeid })
         if (!leave) {
             return res.status(500).json({message:"leave not found"})
         }

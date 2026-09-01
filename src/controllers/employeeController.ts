@@ -9,7 +9,7 @@ import User from "../modals/user.modal"
 export const createEmployee = async (req: Request, res: Response) => {
     try {
         const { name, email, password, phone, department, designation, salary, joiningDate, profileImage } = req.body;
-        if (!name || !email || !phone || !department) {
+        if (!name || !email || !password) {
             return res.status(500).json({
                 message: "All fields is required"
             })
@@ -24,14 +24,15 @@ export const createEmployee = async (req: Request, res: Response) => {
         const user = await User.create({
             name,
             email,
-            password: hash
+            password: hash,
+            role:"employee"
         })
         const employeeid = "EMP" + Date.now();
         const employee = await Employee.create({
             employeeid,
             name,
             email,
-            password: hash,
+            // password: hash,
             phone,
             department,
             designation,

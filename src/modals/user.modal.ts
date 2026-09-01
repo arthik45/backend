@@ -3,7 +3,8 @@ export interface Iuser extends Document {
     _id: any;
     name: string,
     email: string,
-    password: string
+    password: string,
+    role: "admin" | "employee";
 
 }
 const userSchema = new Schema<Iuser>({
@@ -19,6 +20,11 @@ const userSchema = new Schema<Iuser>({
     password: {
         type: String,
         required: true
+    },
+    role: {
+        type: String,
+        enum: ["admin", "employee"],
+        default:"employee"
     }
 
 }, { timestamps: true })

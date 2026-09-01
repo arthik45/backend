@@ -5,5 +5,5 @@ leaveRouter.post("/applyleave", applyLeave)
 leaveRouter.post("/approveleave/", approveLeave)
 // leaveRouter.delete("/deleteemployee/:id", deleteEmployee)
 leaveRouter.get("/leaves", getLeaves)
-leaveRouter.get("/leaves/:id", getLeavebuid)
+leaveRouter.get("/leaves/:employeeid", getLeavebuid)
 export default leaveRouter;
